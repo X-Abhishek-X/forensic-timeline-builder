@@ -1,0 +1,7 @@
+paramiko
+pandas
+matplotlib
+Flask
+evtx
+python-dateutil
+pdfkit
