@@ -1,0 +1,18 @@
+[
+  {
+    "host": "192.168.1.10",
+    "user": "admin",
+    "password": "your_password_here",
+    "paths": ["/var/log/syslog", "/var/log/auth.log"]
+  },
+  {
+    "host": "192.168.1.15",
+    "user": "ubuntu",
+    "password": "your_password_here",
+    "paths": ["/var/log/syslog"]
+  },
+  {
+    "host": "test.local",
+    "local_path": ["collector/sample_local_logs/syslog_sample.log"]
+  }
+]
