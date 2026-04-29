@@ -4,16 +4,20 @@ from dateutil import parser
 
 def parse_evtx(file_path, host):
     events = []
-    for record in PyEvtxParser(file_path).records():
+    evtx_parser = PyEvtxParser(file_path)
+    
+    for record in evtx_parser.records():
         try:
-            ts = parser.parse(record.timestamp())
+            # The record is a dictionary with keys: 'event_record_id', 'timestamp', 'data'
+            ts = parser.parse(record['timestamp'])
             events.append({
                 "timestamp": ts,
                 "host": host,
-                "message": record.message(),
-                "raw": record.xml()
+                "message": f"Event ID: {record['event_record_id']}",
+                "raw": record['data']  # This contains the XML data
             })
-        except Exception:
+        except Exception as e:
+            # Silently skip records that can't be parsed
             continue
 
     evtx_df = pd.DataFrame(events)
