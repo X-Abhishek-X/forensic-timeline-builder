@@ -1,0 +1,12 @@
+[
+  {
+    "host": "192.168.1.10",
+    "user": "your-ssh-user",
+    "password": "USE_AN_SSH_KEY_OR_PUT_A_REAL_PASSWORD_HERE",
+    "paths": ["/var/log/syslog", "/var/log/auth.log"]
+  },
+  {
+    "host": "test.local",
+    "local_path": ["collector/sample_local_logs/syslog_sample.log"]
+  }
+]

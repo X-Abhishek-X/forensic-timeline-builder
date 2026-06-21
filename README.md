@@ -195,6 +195,12 @@ The configuration file supports two types of entries:
 | Auth Log | `*auth.log*` | `authlog_parser.py` | Authentication logs |
 | Windows Event | `*.evtx` | `windows_evtx_parser.py` | Windows Event Logs |
 
+## 🔒 Security Notes
+
+- **Credentials stay local.** `collector/ssh_hosts.json` is git-ignored. Copy `collector/ssh_hosts.json.example`, then fill in your own hosts. Prefer SSH keys over passwords where possible.
+- **Host-key verification is on by default.** The collector loads your system `known_hosts` and rejects unknown host keys to prevent man-in-the-middle interception. To auto-add keys on a trusted lab network, run with `FTB_ALLOW_UNKNOWN_HOSTS=1`; do not enable that on untrusted networks.
+- **Scope.** This tool collects, parses, normalises, and times log events. It does not perform threat detection, alerting, or integrity/chain-of-custody enforcement.
+
 ## 📖 Usage
 
 ### Running Individual Components

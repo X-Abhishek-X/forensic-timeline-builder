@@ -8,6 +8,7 @@ works whether you specify paths relative to the collector/ folder or the project
 """
 
 import json
+import os
 import shutil
 from pathlib import Path
 import paramiko
@@ -26,7 +27,14 @@ def fetch_via_ssh(host: str, user: str, password: str, paths: list, timeout: int
     host_dir.mkdir(parents=True, exist_ok=True)
 
     ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    # Verify host keys to prevent man-in-the-middle attacks. Unknown hosts are
+    # rejected by default; export FTB_ALLOW_UNKNOWN_HOSTS=1 to auto-add keys when
+    # collecting on a trusted lab network. Never enable that on untrusted networks.
+    ssh.load_system_host_keys()
+    if os.environ.get("FTB_ALLOW_UNKNOWN_HOSTS") == "1":
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    else:
+        ssh.set_missing_host_key_policy(paramiko.RejectPolicy())
 
     try:
         ssh.connect(hostname=host, username=user, password=password, timeout=timeout)
